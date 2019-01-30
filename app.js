@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import globalRouter from './router/globalRouter';
 import userRouter from './router/userRouter';
 import videoRouter from './router/videoRouter';
+import routes from './routes';
 const app = express();
 
 // middleware
@@ -16,7 +17,7 @@ app.use(helmet());
 app.use(morgan("dev"));
 
 app.use('/', globalRouter);
-app.use('/user', userRouter);
-app.use('/video', videoRouter);
+app.use(routes.users, userRouter);
+app.use(routes.videos, videoRouter);
 
 export default app;
