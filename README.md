@@ -18,3 +18,21 @@ Cloning Youtube with Vanilla and NodeJS
 
 # body parser
 - yarn add body-parser
+
+# Pug
+- app.set('view engine', 'pug') // 엔진 설정
+- 기본 폴더는 views
+- (req, res) => res.render('home') // 사용 views/home.pug 를 사용한다는 의미
+## layouts 사용
+### layouts/main.png 
+- block {content}
+### home.png
+```
+ block content
+    p 내용
+```
+## partials 사용
+- include 경로
+
+## javascript 사용
+- #{자바스크립트입력}
