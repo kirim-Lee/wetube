@@ -49,3 +49,17 @@ const localMiddleware = (req, res, next) => {
 - 사용 pug 에서 #{var1} 로 사용
 - 특정 뷰에서 사용하려면
 - res.render('view', {var1: 'name'}) 두번째 인자에서 전달가능
+
+
+## Pages:
+
+- [ ] Home
+- [ ] Join
+- [ ] Login
+- [x] Search
+- [ ] User Detail
+- [ ] Edit Profile
+- [ ] Change Password
+- [ ] Upload
+- [ ] Video Detail
+- [ ] Edit Video
