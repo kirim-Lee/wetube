@@ -36,3 +36,16 @@ Cloning Youtube with Vanilla and NodeJS
 
 ## javascript 사용
 - #{자바스크립트입력}
+
+## pug 에 미들웨어를 사용해 변수 전달
+- locals 이용
+- app.use(localMiddleware)
+```
+const localMiddleware = (req, res, next) => {
+    res.locals.var1 = 'name';
+    next();
+}
+```
+- 사용 pug 에서 #{var1} 로 사용
+- 특정 뷰에서 사용하려면
+- res.render('view', {var1: 'name'}) 두번째 인자에서 전달가능
