@@ -57,9 +57,9 @@ const localMiddleware = (req, res, next) => {
 - [ ] Join
 - [ ] Login
 - [x] Search
-- [ ] User Detail
-- [ ] Edit Profile
-- [ ] Change Password
-- [ ] Upload
+- [x] User Detail
+- [x] Edit Profile
+- [x] Change Password
+- [x] Upload
 - [ ] Video Detail
 - [ ] Edit Video
