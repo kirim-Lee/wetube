@@ -2,7 +2,9 @@ import passport from 'passport';
 import routes from '../routes';
 import User from '../models/User';
 
-export const getJoin = (req, res) => res.render('join', { pageTitle: 'Join' });
+export const getJoin = (req, res) => {
+    return res.render('join', { pageTitle: 'Join' });
+}
 export const postJoin = async (req, res, next) => {
     const {
         body: {
