@@ -16,7 +16,7 @@ import videoRouter from './router/videoRouter';
 import './passport';
 
 const app = express();
-const cookieeStore = MongoStore(session);
+const cookieStore = MongoStore(session);
 
 app.set('view engine', 'pug');
 // middleware
@@ -31,7 +31,7 @@ app.use(session({
     secret: process.env.SECRET,
     resave: true,
     saveUninitialized: false,
-    store: new cookieeStore({
+    store: new cookieStore({
         mongooseConnection: mongoose.connection
     })
 }));
