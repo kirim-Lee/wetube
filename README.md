@@ -50,6 +50,10 @@ const localMiddleware = (req, res, next) => {
 - 특정 뷰에서 사용하려면
 - res.render('view', {var1: 'name'}) 두번째 인자에서 전달가능
 
+## local tunnel
+- npm install -g localtunnel
+- lt --port (PORT) 
+- localhost 를 https 로 바꿔줌
 
 ## Pages:
 
