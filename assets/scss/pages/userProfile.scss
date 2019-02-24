@@ -14,12 +14,12 @@
         margin-top: 15px;
       }
     }
-    .user-profile__btns {
+    .user-profile__bts {
       display: flex;
       flex-direction: column;
       align-items: center;
       margin-bottom: 50px;
-      a:not(:last-child) {
+      button:not(:last-child) {
         margin-bottom: 20px;
       }
     }
