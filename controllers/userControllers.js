@@ -107,7 +107,7 @@ export const getMe = (req, res) => {
 
 export const userDetail = async (req, res) => {    
     try {
-        const user = await User.findById(req.params.id);
+        const user = await User.findById(req.params.id).populate('videos');
         if (user) {
             return res.render('userDetail', {pageTitle: 'User Profile', user});
         } else {
@@ -134,8 +134,24 @@ export const postEditPrifile = async (req, res) => {
         return res.redirect(routes.users+routes.me);
     } catch (error) {
         console.log(error);
-        return res.render('editProfile', {pageTitle: 'Edit Profile'});
+        res.redirect(routes.users + routes.editProfile);
     }
 }
 
-export const changePassword = (req, res) => res.render('changePassword');
+export const getChangePassword = (req, res) => res.render('changePassword', {pageTitle: 'Change Password'});
+export const postChangePassword = async (req, res) => {
+    const {oldPassword, newPassword, newPassword1} = req.body;
+    if (newPassword === newPassword1) {
+        try {
+            await req.user.changePassword(oldPassword, newPassword);
+            return res.redirect(routes.users+routes.me);
+        } catch(error) {
+            console.log(error);
+            res.status(400);
+            return res.redirect(routes.users + routes.changePassword);
+        }
+    } else {
+        res.status(400);
+        return res.redirect(routes.users + routes.changePassword);
+    }
+}
