@@ -34,17 +34,34 @@ function handleVolumnClick() {
 }
 
 function goFullScreen() {
-    videoContainer.webkitRequestFullscreen();
     fullScreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
     fullScreenBtn.removeEventListener('click', goFullScreen);
     fullScreenBtn.addEventListener('click', exitFullScreen);
+    if (videoContainer.requestFullscreen) {
+        videoContainer.requestFullscreen();
+    }else if (videoContainer.webkitRequestFullscreen) {
+        videoContainer.webkitRequestFullscreen();
+    } else if (videoContainer.mozRequestFullscreen) {
+        videoContainer.mozRequestFullscreen();
+    } else if (videoContainer.msRequestFullscreen) {
+        videoContainer.msRequestFullscreen();
+    }
 }
 
 function exitFullScreen() {
-    document.webkitExitFullscreen();
     fullScreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
     fullScreenBtn.addEventListener('click', goFullScreen);
     fullScreenBtn.removeEventListener('click', exitFullScreen);
+    if(document.exitFullscreen) { 
+        document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    } else if (document.mozExitFullscreen) {
+        document.mozExitFullscreen();
+    } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+    }
+    
 }
 
 if (videoContainer) {
