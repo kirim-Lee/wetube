@@ -6,13 +6,23 @@ function getElements() {
     playBtn = videoContainer.querySelector('#jsPlayButton');
     volumnBtn = videoContainer.querySelector('#jsVolumnButton');
     fullScreenBtn = videoContainer.querySelector('#jsFullScreen');
+    currentTime = videoContainer.querySelector('#currentTime');
+    totalTime = videoContainer.querySelector('#totalTime');
 }
 
 function init () {    
     playBtn.addEventListener('click', handlePlayClick);
     volumnBtn.addEventListener('click', handleVolumnClick);
     fullScreenBtn.addEventListener('click', goFullScreen);
+    videoPlayer.addEventListener('loadedmetadata', setTotalTime);
+    
 }
+
+if (videoContainer) {
+    getElements();
+    init();
+}
+
 
 function handlePlayClick() {
     if(videoPlayer.paused) {
@@ -61,10 +71,35 @@ function exitFullScreen() {
     } else if (document.msExitFullscreen) {
         document.msExitFullscreen();
     }
-    
 }
 
-if (videoContainer) {
-    getElements();
-    init();
+function formatDate (seconds) {
+    const secondNumber = parseInt(seconds, 10);
+    let hours = Math.floor(secondNumber / 3600);
+    let minutes = Math.floor((secondNumber % 3600) / 60);
+    let totalSeconds = secondNumber % 60;
+
+    if (hours < 10) {
+        hours = `0${hours}`;
+    }
+    if( minutes < 10) {
+        minutes = `0${minutes}`;
+    }
+    if (totalSeconds < 10) {
+        totalSeconds = `0${totalSeconds}`;
+    }
+
+    return `${hours}:${minutes}:${totalSeconds}`;
+}
+
+function getCurrentTime() {
+    currentTime.innerHTML = formatDate(videoPlayer.currentTime);
+}
+
+function setTotalTime() {
+    console.log('rer');
+    const totalTimeString = formatDate(videoPlayer.duration);
+    totalTime.innerHTML = totalTimeString;
+
+    setInterval(getCurrentTime, 1000);
 }
