@@ -1,5 +1,5 @@
 const videoContainer = document.getElementById('jsVideoPlayer');
-let videoPlayer, playBtn, volumnBtn, fullScreenBtn;
+let videoPlayer, playBtn, volumnBtn, fullScreenBtn, currentTime, totalTime, volumnRange;
 
 function getElements() {
     videoPlayer = videoContainer.querySelector('video');
@@ -8,6 +8,8 @@ function getElements() {
     fullScreenBtn = videoContainer.querySelector('#jsFullScreen');
     currentTime = videoContainer.querySelector('#currentTime');
     totalTime = videoContainer.querySelector('#totalTime');
+    volumnRange = videoContainer.querySelector('#jsVolumn');
+
 }
 
 function init () {    
@@ -15,6 +17,10 @@ function init () {
     volumnBtn.addEventListener('click', handleVolumnClick);
     fullScreenBtn.addEventListener('click', goFullScreen);
     videoPlayer.addEventListener('loadedmetadata', setTotalTime);
+    videoPlayer.addEventListener('ended', handleEnded);
+    volumnRange.addEventListener('input', handleDrag);
+
+    videoPlayer.volume = 0.5;
     
 }
 
@@ -22,7 +28,23 @@ if (videoContainer) {
     getElements();
     init();
 }
+function handleDrag(event) {
+    const value = event.target.value;
+    videoPlayer.volume = value;
+    if (value >= 0.7) {
+        volumnBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+    } else if(value >= 0.2) {
+        volumnBtn.innerHTML = '<i class="fas fa-volume-down"></i>';
+    } else {
+        volumnBtn.innerHTML = '<i class="fas fa-volume-off"></i>';
+    }
 
+}
+
+function handleEnded() {
+    videoPlayer.currentTime = 0;
+    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+}
 
 function handlePlayClick() {
     if(videoPlayer.paused) {
@@ -30,16 +52,18 @@ function handlePlayClick() {
         playBtn.innerHTML = '<i class="fas fa-pause"></i>';
     } else {
         videoPlayer.pause();
-        playBtn.innerHTML = '<i class="fas fa-play"></i>';
+        playBtn.innerHTML = '<i class="fas fa-play"></i>';volumnBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
     }
 }
 
 function handleVolumnClick() {
     videoPlayer.muted = !videoPlayer.muted;
     if(videoPlayer.muted) {
-        volumnBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        
+        volumnRange.value = 0;
     } else {
         volumnBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+        volumnRange.value = videoPlayer.volume;
     }
 }
 
