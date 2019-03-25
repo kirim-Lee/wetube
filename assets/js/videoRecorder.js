@@ -5,17 +5,18 @@ const videoPreview = document.getElementById('jsVideoPreview');
 let streamObject;
 let videoRecorder;
 
+// dataavailable event 발생 시 데이터 저장
 const handleVideoData = (event) => {
-    console.log(event);
     const { data: videoFile } = event;
     const link = document.createElement('a');
     link.href = URL.createObjectURL(videoFile);
     link.download = 'recorded.webm';
     document.body.appendChild(link);
     link.click();
-
+    videoRecorder.removeEventListener('dataavailable', handleVideoData);
 }
 
+// 녹화 시작
 const startRecording = () => {
     videoRecorder = new MediaRecorder(streamObject);
     // videoRecorder.start(1000); // 매초마다 저장할때
@@ -24,8 +25,9 @@ const startRecording = () => {
     recordBtn.addEventListener('click', stopRecording);
 }
 
+// 녹화 종료
 const stopRecording = () => {
-    videoRecorder.stop();
+    videoRecorder.stop(); // stop 시 dataavailable 이벤트 발생 시킴
     recordBtn.removeEventListener('click', stopRecording);
     recordBtn.addEventListener('click', getVideo);
     recordBtn.innerHTML = 'Start Recording';
