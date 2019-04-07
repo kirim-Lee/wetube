@@ -12,6 +12,13 @@ function getElements() {
 
 }
 
+const registerView = () => {
+    const videoId = window.location.href.split('/videos/')[1];
+    fetch(`/api/${videoId}/view`, {
+        method: "POST"
+    });
+}
+
 function init () {    
     playBtn.addEventListener('click', handlePlayClick);
     volumnBtn.addEventListener('click', handleVolumnClick);
@@ -42,6 +49,7 @@ function handleDrag(event) {
 }
 
 function handleEnded() {
+    registerView();
     videoPlayer.currentTime = 0;
     playBtn.innerHTML = '<i class="fas fa-play"></i>';
 }
