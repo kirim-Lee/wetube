@@ -46,8 +46,33 @@
           padding: 15px;
           border-radius: 20px;
           border-bottom-left-radius: 0px;
+          position: relative;
           &:not(:last-child) {
             margin-bottom: 15px;
+          }
+          .deleteComment {
+              border-radius: 50%;
+              width:20px;
+              height:20px;
+              text-indent: -1000px;
+              background:#3498db;
+              position: absolute;
+              right:-27px; 
+              top:50%;
+              margin-top:-10px;
+              text-align: center;
+              cursor: pointer;
+              &:after{
+                  content: "x";
+                  color:#fff;
+                  position: absolute;
+                  width:100%;
+                  top:0;
+                  text-align: center;
+                  text-indent: 0;
+                  left:0;
+                  line-height: 20px;
+              }
           }
         }
       }

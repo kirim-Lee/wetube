@@ -123,6 +123,29 @@ export const postAddComment = async (req, res) => {
         });
         video.comments.push(newComment._id);
         video.save();
+        res.json(200, {
+            commentId: newComment._id
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(400);
+    } finally {
+        
+        res.end();
+    }
+}
+
+export const postRemoveComment = async (req, res) => {
+    const {
+        params: {id},
+        user
+    } = req;
+    try {
+        const comment = await Comment.findById(id);
+        if (comment.creator.toString() !== user.id.toString()) {
+            throw Error();
+        }
+        await Comment.findByIdAndRemove(id);
     } catch (err) {
         console.log(err);
         res.status(400);

@@ -4,16 +4,28 @@ const addCommentForm = document.getElementById('jsAddComment');
 const commentList = document.getElementById('jsCommentList');
 const commentNumber = document.getElementById('jsCommentNumber');
 
-const increaseNumber = () => {
+const increaseNumber = (isMinus) => {
     const prevNumber = parseInt(commentNumber.textContent, 10);
-    commentNumber.innerText = prevNumber + 1;
+    if (isMinus) {
+        commentNumber.innerText = prevNumber + isMinus;
+        if (prevNumber + isMinus === 1) {
+            commentNumber.parentElement.innerHTML = '<span class="video__comment-number" id="jsCommentNumber">1</span> comment';
+        }
+    } else {
+        commentNumber.innerText = prevNumber + 1;
+    }
+    
 }
 
-const addComment = (comment) => {
+const addComment = (comment, commentId) => {
     const li = document.createElement('li');
     const span = document.createElement('span');
+    const delBtn = document.createElement('span');
+    delBtn.classList.add('deleteComment'); // del btn add class
+    delBtn.id = commentId || '';
     span.innerHTML = comment;
     li.appendChild(span);
+    li.appendChild(delBtn);
     commentList.prepend(li);
     increaseNumber();
 }
@@ -36,12 +48,34 @@ const sendComment = async (comment) => {
         }
     });
     if (response.status === 200) {
-        addComment(comment);
+        const {commentId} = response.data;
+        addComment(comment, commentId);
+    }
+}
+
+const removeComment = (commentId) => {
+    document.getElementById(commentId).parentElement.remove();
+    increaseNumber(-1);
+}
+
+const handleClickList = async (event) => {
+    const target = event.target;
+    if (target.className === 'deleteComment' && target.id) {
+        event.stopPropagation();
+        const response = await axios({
+            url: `/api/${target.id}/delete/comment`,
+            method: 'POST'
+        });
+
+        if (response.status === 200) {
+            removeComment(target.id);
+        }
     }
 }
 
 function init() {
     addCommentForm.addEventListener('submit', handleSubmitComment);
+    commentList.addEventListener('click', handleClickList);
 }
 
 if (addCommentForm) {
