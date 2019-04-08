@@ -129,7 +129,6 @@ function getCurrentTime() {
 }
 
 function setTotalTime() {
-    console.log('rer');
     const totalTimeString = formatDate(videoPlayer.duration);
     totalTime.innerHTML = totalTimeString;
 

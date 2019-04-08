@@ -115,6 +115,7 @@ export const postAddComment = async (req, res) => {
         user
     } = req;
     try {
+        // login 안되도 해당 구문을 try 하는 문제가 있음 
         const video = await Video.findById(id);
         const newComment = await Comment.create({
             text: comment,
@@ -123,6 +124,7 @@ export const postAddComment = async (req, res) => {
         video.comments.push(newComment._id);
         video.save();
     } catch (err) {
+        console.log(err);
         res.status(400);
     } finally {
         res.end();
