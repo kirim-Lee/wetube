@@ -67,3 +67,7 @@ const localMiddleware = (req, res, next) => {
 - [x] Upload
 - [x] Video Detail
 - [x] Edit Video
+
+## aws
+- yarn add aws-sdk
+- yarn add multer-s3
