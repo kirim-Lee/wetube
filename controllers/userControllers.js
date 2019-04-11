@@ -102,8 +102,16 @@ export const logout = (req, res) => {
     return res.redirect(routes.home);
 };
 
-export const getMe = (req, res) => {
-    return res.render('userDetail', {pageTitle: 'User Profile', user: req.user});}
+export const getMe = async (req, res) => {
+    let user = null
+    try {
+        user = await User.findById(req.user.id).populate('videos');
+    } catch(err) {
+        console.log(err);
+    } finally {
+        return res.render('userDetail', {pageTitle: 'User Profile', user: user ? user : req.user});
+    }
+}
 
 export const userDetail = async (req, res) => {    
     try {
@@ -119,17 +127,16 @@ export const userDetail = async (req, res) => {
     
 }
 export const getEditProfile = (req, res) => res.render('editProfile', {pageTitle: 'Edit Profile'});
-export const postEditPrifile = async (req, res) => {
+export const postEditProfile = async (req, res) => {
     const {
         body: {name, email},
         file
     } = req;
-    console.log(file);
     try {
         const user = await User.findByIdAndUpdate(req.user.id, {
             name,
             email,
-            avatarUrl: file && file.path ? `/${file.path}` : req.user.avatarUrl
+            avatarUrl: file && file.location ? `${file.location}` : req.user.avatarUrl
         });
         return res.redirect(routes.users+routes.me);
     } catch (error) {

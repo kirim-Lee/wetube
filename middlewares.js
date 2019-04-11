@@ -1,22 +1,26 @@
-import path from 'path';
 import multer from 'multer';
+import multerS3 from 'multer-s3';
+import aws from 'aws-sdk';
 import routes from './routes';
 
-/*const imageStorage = multer.diskStorage({
-    destination: function(req, file, cb){
-      cb(null, 'uploads/avatars/');
-    },
-    filename: function(_req, file, cb){
-      var filename = Date.now();
-      if (file.mimetype) {
-          filename = filename + file.mimetype.replace('image/', '.');
-      }
-      cb(null, filename);
-    }
-});*/
-export const multerVideo = multer({ dest: 'uploads/videos/' });
-// export const multerAvatar = multer({storage: imageStorage});
-export const multerAvatar = multer({dest: 'uploads/avatars/'});
+const s3 = new aws.S3({
+    accessKeyId: process.env.AWS_KEY,
+    secretAccessKey: process.env.AWS_PRIVATE_KEY,
+    region: 'ap-northeast-1'
+});
+
+
+export const multerVideo = multer({ storage: multerS3({
+    s3,
+    acl: 'public-read',
+    bucket: `${process.env.AWS_BUCKET_NAME}/video`
+}) });
+
+export const multerAvatar = multer({ storage: multerS3({
+    s3,
+    acl: 'public-read',
+    bucket: `${process.env.AWS_BUCKET_NAME}/avatar`
+}) });
 
 export const localsMiddleware = (req, res, next) => {
     res.locals.siteName = 'WeTube';
