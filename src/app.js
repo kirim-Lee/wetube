@@ -13,6 +13,7 @@ import userRouter from './router/userRouter';
 import { localsMiddleware } from './middlewares';
 import videoRouter from './router/videoRouter';
 import apiRouter from './router/apiRouter';
+import path from 'path';
 
 import './passport';
 
@@ -20,9 +21,10 @@ const app = express();
 const cookieStore = MongoStore(session);
 
 app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
 // middleware
 app.use('/uploads', express.static('uploads'));
-app.use('/static', express.static('static'));
+app.use('/static', express.static(path.join(__dirname, 'static')));
 app.use(helmet());
 app.use(cookieParser());
 app.use(bodyParser.json());
