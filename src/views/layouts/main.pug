@@ -5,6 +5,13 @@ html
     title #{pageTitle} | #{locals.siteName}
     link(rel="stylesheet", href="/static/styles.css")
   body
+    if messages.error
+      span=messages.error
+    if messages.info
+      span=messages.info
+    if messages.success
+      span=messages.success
+    
     include ../partials/header
     main
       block content
